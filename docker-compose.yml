@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  servera:
+    build: ./api-server-a
+    container_name: api_server_a
+    ports:
+      - 11111:44332 # 11111 -> host port    44332 -> container port
+    networks:
+      - my-network
+    volumes:
+      - ./api-server-a:/usr/app # Bind mount for api-server-a source code
+  serverb:
+    build: ./api-server-b
+    container_name: api_server_b
+    ports:
+      - 22222:33221 # 22222 -> host port    33221 -> container port
+    networks:
+      - my-network
+    volumes:
+      - ./api-server-b:/usr/app # Bind mount for api-server-b source code 
+networks: # Create custom network as the default bridge network is not recommended (https://docs.docker.com/network/bridge/#use-the-default-bridge-network)
+  my-network:
+    driver: bridge
